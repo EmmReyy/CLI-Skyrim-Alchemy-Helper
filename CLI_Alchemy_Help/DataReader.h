@@ -1,22 +1,23 @@
 #pragma once
 #include <iostream>
 #include <fstream>
+#include <unordered_set>
+#include "Ingredient.h"
 #include "json.hpp"
 
 using json = nlohmann::json;
+using namespace std;
 
 class DataReader
 {
 public:
 	DataReader() = default;
-
-	//for getting the file
-	json& getData();
-	//for loding from file
-	bool loadFromFile(const std::string& filename);
+	unordered_set<Ingredient> getIngredients();
+	bool loadIngredientFile(const string& filename);
+	bool parseIngredientFile();
 
 private:
-	json data;
-
+	json ingredientFile;
+	unordered_set<Ingredient> ingredients;
 };
 
