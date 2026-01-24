@@ -19,10 +19,20 @@ public:
 
 	friend ostream& operator<<(ostream& os, const Ingredient& i);
 
-	
+
 private:
 	string name;
 	unordered_set<string> effects = {};
 
 };
+
+template<>
+struct hash<Ingredient>
+{
+	size_t operator()(const Ingredient& i) const
+	{
+		return hash<string>()(i.getName());
+	}
+};
+
 
