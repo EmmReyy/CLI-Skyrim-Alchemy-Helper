@@ -7,22 +7,21 @@ class Effect
 {
 private:
 	string name;
-	unordered_set<string> ingredients;
+	unordered_set<Ingredient> ingredients;
 public:
-	Effect(string name, unordered_set<string> ingredients);
+	Effect(string name, unordered_set<Ingredient> ingredients);
 
-	string getEffect() const;
-	unordered_set<string> getIngredients() const;
+	string getEffectName() const;
+	unordered_set<Ingredient> getIngredients() const;
 	
-	bool operator==(const Ingredient& other) const;
+	bool operator==(const Effect& other) const;
 
-	friend ostream& operator<<(ostream& os, const Ingredient& i);
+	friend ostream& operator<<(ostream& os, const Effect& i);
 };
 
 template <>
-
 struct hash<Effect> {
 	size_t operator()(const Effect& e) {
-		return hash<string>()(e.getEffect());
+		return hash<string>()(e.getEffectName());
 	}
 };

@@ -9,7 +9,7 @@ Ingredient::Ingredient(string name, unordered_set<string> effects) {
 	this->effects = effects;
 }
 
-string Ingredient::getName() const {
+string Ingredient::getIngredientName() const {
 	return name;
 }
 
@@ -37,6 +37,6 @@ ostream& operator<<(ostream& os, const Ingredient& i) {
 		first = false;
 	}
 
-	os << i.getName() << " : " << "{" << effects << "}";
+	os << i.getIngredientName() << " : " << "{" << effects << "}";
 	return os;
 }

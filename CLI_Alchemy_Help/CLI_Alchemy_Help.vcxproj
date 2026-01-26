@@ -126,14 +126,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\DataReader.cpp" />
-    <ClCompile Include="src\Effects.cpp" />
+    <ClCompile Include="src\Effect.cpp" />
     <ClCompile Include="src\Ingredient.cpp" />
     <ClCompile Include="src\IngredientHandler.cpp" />
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\DataReader.h" />
-    <ClInclude Include="headers\Effects.h" />
+    <ClInclude Include="headers\Effect.h" />
     <ClInclude Include="headers\Ingredient.h" />
     <ClInclude Include="headers\IngredientHandler.h" />
   </ItemGroup>

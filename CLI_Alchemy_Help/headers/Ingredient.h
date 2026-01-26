@@ -11,7 +11,7 @@ class Ingredient
 
 public:
 	Ingredient(string name, unordered_set<string> effects);
-	string getName() const;
+	string getIngredientName() const;
 	unordered_set<string> getEffects() const;
 	bool hasEffect(const string& name);
 
@@ -27,9 +27,9 @@ private:
 };
 
 template<>
-struct hash<Ingredient> {
-	size_t operator()(const Ingredient& i) const {
-		return hash<string>()(i.getName());
+struct hash<Ingredient>{
+	size_t operator()(const Ingredient& i) const{
+		return hash<string>()(i.getIngredientName());
 	}
 };
 

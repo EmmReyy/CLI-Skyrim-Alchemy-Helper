@@ -27,7 +27,7 @@
     <ClCompile Include="src\IngredientHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Effects.cpp">
+    <ClCompile Include="src\Effect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,7 +41,7 @@
     <ClInclude Include="headers\IngredientHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Effects.h">
+    <ClInclude Include="headers\Effect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
