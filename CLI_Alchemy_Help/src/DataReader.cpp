@@ -1,6 +1,7 @@
 
 #include "DataReader.h"
 #include "Ingredient.h"
+#include "Effects.h"
 #include <unordered_set>
 #include <fstream>
 #include "json.hpp"

@@ -6,5 +6,8 @@ class IngredientHandler
 {
 private:
 
+
+public:
+
 };
 

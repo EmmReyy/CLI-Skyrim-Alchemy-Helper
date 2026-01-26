@@ -27,10 +27,8 @@ private:
 };
 
 template<>
-struct hash<Ingredient>
-{
-	size_t operator()(const Ingredient& i) const
-	{
+struct hash<Ingredient> {
+	size_t operator()(const Ingredient& i) const {
 		return hash<string>()(i.getName());
 	}
 };
