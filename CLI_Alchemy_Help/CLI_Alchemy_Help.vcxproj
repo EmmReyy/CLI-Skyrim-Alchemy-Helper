@@ -125,6 +125,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="IngredientHandler.cpp" />
     <ClCompile Include="src\DataReader.cpp" />
     <ClCompile Include="src\Ingredient.cpp" />
     <ClCompile Include="src\Main.cpp" />
@@ -132,6 +133,7 @@
   <ItemGroup>
     <ClInclude Include="headers\DataReader.h" />
     <ClInclude Include="headers\Ingredient.h" />
+    <ClInclude Include="IngredientHandler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

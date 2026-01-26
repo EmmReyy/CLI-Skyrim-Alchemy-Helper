@@ -24,12 +24,18 @@
     <ClCompile Include="src\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="IngredientHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\DataReader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="headers\Ingredient.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IngredientHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -28,10 +28,13 @@ bool Ingredient::operator==(const Ingredient& other) const {
 ostream& operator<<(ostream& os, const Ingredient& i) {
 
 	string effects;
-
+	bool first = true;
 	for (auto& effect : i.getEffects()) {
+		if (!first) {
+			effects += ", ";
+		}
 		effects += effect;
-		effects += ", ";
+		first = false;
 	}
 
 	os << i.getName() << " : " << "{" << effects << "}";

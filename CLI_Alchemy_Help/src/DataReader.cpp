@@ -32,7 +32,15 @@ bool DataReader::parseIngredientFile() {
 		string name = item["name"];
 		unordered_set<string> effects = {};
 
-		for (const auto& effect : item["effects"]) {
+		for (string effect : item["effects"]) {
+
+			if (effect.find('(') != string::npos && effect.find(')') != string::npos) {
+				int start = effect.find('(');
+				int end = effect.find(')');
+
+				effect.erase(start, (end - start + 1));
+			}
+
 			effects.insert(effect);
 		}
 
