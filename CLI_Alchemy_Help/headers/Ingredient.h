@@ -26,11 +26,30 @@ private:
 
 };
 
-template<>
-struct hash<Ingredient>{
-	size_t operator()(const Ingredient& i) const{
-		return hash<string>()(i.getIngredientName());
+struct IngredientHash {
+	using is_transparent = void;
+
+	size_t operator()(const Ingredient& i) const {
+		return hash<string>{}(i.getIngredientName());
+	}
+	
+	size_t operator()(const string& name) const {
+		return hash<string>{}(name);
 	}
 };
 
+struct IngredientEqual {
+	using is_transparent = void;
 
+	bool operator()(const Ingredient& setIngredient, const Ingredient& checkIngredient) const {
+		return setIngredient.getIngredientName() == checkIngredient.getIngredientName();
+	} 
+
+	bool operator()(const string& name, const Ingredient& i) {
+		return name == i.getIngredientName();
+	}
+
+	bool operator()(const Ingredient& i, const string& name) {
+		return name == i.getIngredientName();
+	}
+};

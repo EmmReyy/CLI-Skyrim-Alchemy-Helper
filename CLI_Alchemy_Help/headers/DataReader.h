@@ -13,15 +13,15 @@ class DataReader
 {
 public:
 	DataReader() = default;
-	unordered_set<Ingredient> getIngredients();
-	unordered_set<Effect> getEffects();
+	unordered_set<Ingredient, IngredientHash, IngredientEqual> getIngredients();
+	unordered_set<Effect, EffectHash, EffectEqual> getEffects();
 	bool loadIngredientFile(const string& filename);
 	bool parseIngredientFile();
 	
 
 private:
 	json ingredientFile;
-	unordered_set<Ingredient> ingredients;
+	unordered_set<Ingredient, IngredientHash, IngredientEqual> ingredients;
 	unordered_set<Effect, EffectHash, EffectEqual> effects;
 };
 

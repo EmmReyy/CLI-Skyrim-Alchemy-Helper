@@ -36,8 +36,8 @@ bool DataReader::parseIngredientFile() {
 		for (string effect : item["effects"]) {
 
 			if (effect.find('(') != string::npos && effect.find(')') != string::npos) {
-				int start = effect.find('(');
-				int end = effect.find(')');
+				size_t start = effect.find('(');
+				size_t end = effect.find(')');
 
 				effect.erase(start, (end - start + 1));
 			}
@@ -54,7 +54,7 @@ bool DataReader::parseIngredientFile() {
 	return true;
 }
 
-unordered_set<Ingredient> DataReader::getIngredients()
+unordered_set<Ingredient, IngredientHash, IngredientEqual> DataReader::getIngredients()
 {
 	return ingredients;
 }

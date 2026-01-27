@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <set>
 #include <functional>
@@ -7,12 +9,12 @@ class Effect
 {
 private:
 	string name;
-	unordered_set<Ingredient> ingredients;
+	unordered_set<Ingredient, IngredientHash, IngredientEqual> ingredients;
 public:
-	Effect(string name, unordered_set<Ingredient> ingredients);
+	Effect(string name, unordered_set<Ingredient, IngredientHash, IngredientEqual> ingredients);
 
 	string getEffectName() const;
-	unordered_set<Ingredient> getIngredients() const;
+	unordered_set<Ingredient, IngredientHash, IngredientEqual> getIngredients() const;
 	
 	bool operator==(const Effect& other) const;
 
