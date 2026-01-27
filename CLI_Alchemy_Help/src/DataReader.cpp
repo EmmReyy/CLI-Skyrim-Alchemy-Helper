@@ -1,7 +1,7 @@
 
 #include "DataReader.h"
 #include "Ingredient.h"
-#include "Effects.h"
+#include "Effect.h"
 #include <unordered_set>
 #include <fstream>
 #include "json.hpp"
@@ -31,7 +31,7 @@ bool DataReader::parseIngredientFile() {
 
 	for (const auto& item : ingredientFile) {
 		string name = item["name"];
-		unordered_set<string> effects = {};
+		unordered_set<string> ingredientEffects = {};
 
 		for (string effect : item["effects"]) {
 
@@ -42,10 +42,14 @@ bool DataReader::parseIngredientFile() {
 				effect.erase(start, (end - start + 1));
 			}
 
-			effects.insert(effect);
+
+			ingredientEffects.insert(effect);
+			if (effects.find(Effect("this", {})) != effects.end()) {
+
+			}
 		}
 
-		ingredients.insert(Ingredient(name, effects));
+		ingredients.insert(Ingredient(name, ingredientEffects));
 	}
 	return true;
 }
