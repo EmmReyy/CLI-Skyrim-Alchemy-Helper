@@ -9,16 +9,18 @@ class Effect
 {
 private:
 	string name;
-	unordered_set<Ingredient, IngredientHash, IngredientEqual> ingredients;
+	mutable unordered_set<Ingredient, IngredientHash, IngredientEqual> effectIngredients;
 public:
 	Effect(string name, unordered_set<Ingredient, IngredientHash, IngredientEqual> ingredients);
 
 	string getEffectName() const;
 	unordered_set<Ingredient, IngredientHash, IngredientEqual> getIngredients() const;
+	void addEffectIngredient(const Ingredient& ing) const;
 	
 	bool operator==(const Effect& other) const;
 
 	friend ostream& operator<<(ostream& os, const Effect& i);
+
 };
 
 	

@@ -6,15 +6,20 @@
 
 Effect::Effect(string name, unordered_set<Ingredient, IngredientHash, IngredientEqual> ingredients) {
 	this->name = name;
-	this->ingredients = ingredients;
+	this->effectIngredients = ingredients;
 }
 
 string Effect::getEffectName() const{
 	return name;
 }
 
+void Effect::addEffectIngredient(const Ingredient& ing) const{
+	effectIngredients.insert(ing);
+}
+
+
 unordered_set<Ingredient, IngredientHash, IngredientEqual> Effect::getIngredients() const {
-	return ingredients;
+	return effectIngredients;
 }
 
 bool Effect::operator==(const Effect& other) const {

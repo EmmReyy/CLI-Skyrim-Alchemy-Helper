@@ -41,15 +41,17 @@ bool DataReader::parseIngredientFile() {
 
 				effect.erase(start, (end - start + 1));
 			}
-
-
 			ingredientEffects.insert(effect);
-			if (effects.find(Effect("this", {})) != effects.end()) {
-
-			}
+			effects.insert(Effect(effect, {}));
 		}
+		Ingredient ing (Ingredient(name, ingredientEffects));
+		ingredients.insert(ing);
 
-		ingredients.insert(Ingredient(name, ingredientEffects));
+		for (auto& effectName : ingredientEffects) {
+			effects.insert(Effect(effectName, {}));
+			auto it = effects.find(effectName);
+			it->addEffectIngredient(ing);
+		}
 	}
 	return true;
 }
@@ -57,5 +59,9 @@ bool DataReader::parseIngredientFile() {
 unordered_set<Ingredient, IngredientHash, IngredientEqual> DataReader::getIngredients()
 {
 	return ingredients;
+}
+
+unordered_set<Effect, EffectHash, EffectEqual> DataReader::getEffects() {
+	return effects;
 }
 
