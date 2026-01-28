@@ -60,7 +60,7 @@ unordered_set<Ingredient, IngredientHash, IngredientEqual> DataReader::getIngred
 {
 	return ingredients;
 }
-
+	
 unordered_set<Effect, EffectHash, EffectEqual> DataReader::getEffects() {
 	return effects;
 }
