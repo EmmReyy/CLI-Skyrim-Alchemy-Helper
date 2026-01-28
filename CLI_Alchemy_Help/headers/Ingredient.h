@@ -45,11 +45,11 @@ struct IngredientEqual {
 		return setIngredient.getIngredientName() == checkIngredient.getIngredientName();
 	} 
 
-	bool operator()(const string& name, const Ingredient& i) {
+	bool operator()(const string& name, const Ingredient& i) const{
 		return name == i.getIngredientName();
 	}
 
-	bool operator()(const Ingredient& i, const string& name) {
+	bool operator()(const Ingredient& i, const string& name) const{
 		return name == i.getIngredientName();
 	}
 };
