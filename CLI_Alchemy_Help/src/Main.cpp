@@ -19,6 +19,12 @@ void effectSetPrinter(unordered_set<Effect, EffectHash, EffectEqual> effectsSet)
 	}
 }
 
+void ingredientSetPrinter(unordered_set<Ingredient, IngredientHash, IngredientEqual> ingredientsSet) {
+	for (const auto& eff : ingredientsSet) {
+		cout << eff << endl;
+	}
+}
+
 int main(int argc, char* argv[]) {
 	DataReader dr;
 	
@@ -35,9 +41,13 @@ int main(int argc, char* argv[]) {
 	Ingredient ingA = Ingredient("Abecean Longfin", effectsA);
 	Ingredient ingB = Ingredient("Ash Hopper Jelly", effectsB);
 
-	IngredientHandler ingHandler = IngredientHandler(ingredients, effects);
+	auto it = effects.find("Weakness to Frost");
+	Effect effA = Effect("Weakness to Frost", it->getIngredients());
 
-	effectSetPrinter(effects);
+	IngredientHandler ingHandler = IngredientHandler(ingredients, effects);
+	vector<Ingredient>ings = { ingA, ingB };
+	effectSetPrinter(ingHandler.commonEffects(ings));
+	//ingredientSetPrinter(ingHandler.ingredientsWithEffect(effA));
 
 	return 0;
 }

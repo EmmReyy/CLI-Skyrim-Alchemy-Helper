@@ -42,13 +42,17 @@ unordered_set<Ingredient, IngredientHash, IngredientEqual> IngredientHandler::in
 unordered_set<Effect, EffectHash, EffectEqual> IngredientHandler::commonEffects(vector<Ingredient>inputIngredients) {
 	unordered_set<Effect, EffectHash, EffectEqual> commonEffs;
 
+	cout << "input size is " << inputIngredients.size() << endl;
+
 	if (inputIngredients.size() > 2 || inputIngredients.size() < 1){
 		cout << "Can only have one or two ingredients." << endl;
 
 	}
 
-	if (ingredients.size() == 1) {
-		for (auto it = inputIngredients[0].getEffects().begin(); it != inputIngredients[0].getEffects().end(); it++) {
+	if (inputIngredients.size() == 1) {
+		const auto& effectsList = inputIngredients[0].getEffects();
+
+		for (auto it = effectsList.begin(); it != effectsList.end(); ++it) {
 			auto effectThis = effects.find(*it);
 
 			if (effectThis != effects.end()) {
@@ -57,11 +61,12 @@ unordered_set<Effect, EffectHash, EffectEqual> IngredientHandler::commonEffects(
 		}
 	}
 
-	else if (ingredients.size() == 2) {
-		bool hasCommon = false;
+	else if (inputIngredients.size() == 2) {
 
 		for (auto query : inputIngredients[0].getEffects()) {
-			if (inputIngredients[1].getEffects().find(query) != inputIngredients[1].getEffects().end()) {
+			const auto& otherEffectsList = inputIngredients[1].getEffects();
+
+			if (otherEffectsList.find(query) != otherEffectsList.end()) {
 				auto effectThis = effects.find(query);
 				commonEffs.insert(*effectThis);
 			}
