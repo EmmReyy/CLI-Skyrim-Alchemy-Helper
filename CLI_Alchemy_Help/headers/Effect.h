@@ -4,6 +4,9 @@
 #include <unordered_set>
 #include <functional>
 #include "Ingredient.h"
+#include <string>
+
+using namespace std;
 
 class Effect
 {
@@ -27,12 +30,17 @@ public:
 
 struct EffectHash {
 	using is_transparent = void;
+
 	size_t operator()(const Effect&e ) const {
 		return hash<string>{}(e.getEffectName());
 	}
 
 	size_t operator()(const string& name) const {
 		return hash<string>{}(name);
+	}
+
+	size_t operator()(const char* name) const noexcept {
+		return std::hash<std::string>{}(std::string(name));
 	}
 };
 
@@ -47,7 +55,15 @@ struct EffectEqual {
 		return name == e.getEffectName();
 	}
 
+	bool operator()(const char* name, const Effect& e) const {
+		return name == e.getEffectName();
+	}
+
 	bool operator()(const Effect& e, const string& name ) const {
+		return name == e.getEffectName();
+	}
+
+	bool operator()(const Effect& e, const char* name) const {
 		return name == e.getEffectName();
 	}
 };
