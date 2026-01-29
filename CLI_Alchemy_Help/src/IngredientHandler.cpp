@@ -17,8 +17,7 @@ unordered_set<Ingredient, IngredientHash, IngredientEqual> IngredientHandler::in
 	return eff->getIngredients();	
 }
 
-//this one is only to return all the ingredient with two common effects.
-//also assume that input con only have max size two since thats how potions work. messy ik
+
 unordered_set<Ingredient, IngredientHash, IngredientEqual> IngredientHandler::ingredientsWithEffect(unordered_set<Effect, EffectHash, EffectEqual> effects) {
 	if (effects.size() > 2) {
 		return;
@@ -33,15 +32,38 @@ unordered_set<Ingredient, IngredientHash, IngredientEqual> IngredientHandler::in
 	return mergedSet;
 }
 
-
+//this one is only to return all the ingredient with two common effects.
+//also assume that input con only have max size two since thats how potions work. messy ik
 //TODO: should probably just a vector
-unordered_set<Effect, EffectHash, EffectEqual> IngredientHandler::commonEffects(Ingredient ingredient) {
+unordered_set<Effect, EffectHash, EffectEqual> IngredientHandler::commonEffects(vector<Ingredient>inputIngredients) {
 	unordered_set<Effect, EffectHash, EffectEqual> commonEffs;
 
-	//for (auto it = ingredient.getEffects().begin(); it != ingredient.getEffects().end(); it++) {
-	//	effects.insert(effects.find(it));
-	//}
-}
-vector<Effect> commonEffects(Ingredient ingA, Ingredient ingB) {
+	if (inputIngredients.size() > 2 || inputIngredients.size() < 1){
+		cout << "Can only have one or two ingredients." << endl;
+		return;
+	}
 
+	if (ingredients.size() == 1) {
+		for (auto it = inputIngredients[0].getEffects().begin(); it != inputIngredients[0].getEffects().end(); it++) {
+			auto effectThis = effects.find(it);
+
+			if (effectThis != effects.end()) {
+				commonEffs.insert(*effectThis);
+			}
+		}
+	}
+
+	else if (ingredients.size() == 2) {
+		for (int i = 0; i < 2; i++) {
+			for (auto it = inputIngredients[i].getEffects().begin(); it != inputIngredients[i].getEffects().end(); it++) {
+				auto effectThis = effects.find(it);
+
+				if (effectThis != effects.end()) {
+					commonEffs.insert(*effectThis);
+				}
+			}
+		}
+	}
+
+	return commonEffs;
 }
