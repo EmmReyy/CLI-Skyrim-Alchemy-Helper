@@ -42,8 +42,6 @@ unordered_set<Ingredient, IngredientHash, IngredientEqual> IngredientHandler::in
 unordered_set<Effect, EffectHash, EffectEqual> IngredientHandler::commonEffects(vector<Ingredient>inputIngredients) {
 	unordered_set<Effect, EffectHash, EffectEqual> commonEffs;
 
-	cout << "input size is " << inputIngredients.size() << endl;
-
 	if (inputIngredients.size() > 2 || inputIngredients.size() < 1){
 		cout << "Can only have one or two ingredients." << endl;
 
