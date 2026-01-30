@@ -34,6 +34,14 @@ void ingredientSetPrinter(unordered_set<Ingredient, IngredientHash, IngredientEq
 	}
 }
 
+void ingredientPotionBuilder(vector<Ingredient> inputIngredients) {
+	unordered_set<Effect, EffectHash, EffectEqual> commonEffs = handler->commonEffects(inputIngredients);
+	cout << "Resulting potion will be: " << endl;
+	for (auto item : commonEffs) {
+		cout << "    " << item.getEffectName() << endl;
+	}
+}
+
 void inputLoop() {
 	while (true) {
 		string in = "";
@@ -45,8 +53,11 @@ void inputLoop() {
 		while (ss >> holder) {
 			words.push_back(holder);
 		}
-
-		if (in.empty()) {
+		if (isEqual(words[0], "exit")) {
+			cout << "Closed." << endl;
+			break;
+		}
+		else if (in.empty()) {
 			cout << "No command entered." << endl;
 
 		}
@@ -63,9 +74,24 @@ void inputLoop() {
 		else if (isEqual(words[0], "effects")) {
 			effectSetPrinter(effects);
 		}
-		else if (isEqual(words[0], "exit")) {
-			cout << "Closed." << endl;
-			break;
+		else if (isEqual(words[0], "ingredient")) {
+			if (words.size() > 3 || words.size() == 1) {
+				cout << "that command only accepts 1 or 2 arguments." << endl;
+				break;
+			}
+			vector<Ingredient> ingsInput;
+			for (int i = 1; i < words.size(); i++) {
+				auto item = ingredients.find(words[i]);
+
+				if (item == ingredients.end()) {
+					cout << "\"" << words[i] << "\"" << "is not a recognized ingredient" << endl;
+					break;
+				}
+				else {
+					ingsInput.push_back(*item);
+				}
+			}
+			ingredientPotionBuilder(ingsInput);
 		}
 		else {
 			cout << "\"" << words[0] << "\"" << "not recoginzed as a command." << endl;
