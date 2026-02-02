@@ -16,25 +16,30 @@ unordered_set<Ingredient, IngredientHash, IngredientEqual> ingredients;
 unordered_set<Effect, EffectHash, EffectEqual> effects;
 IngredientHandler* handler = nullptr;
 
+bool isEqual(string_view a, string_view b) {
+	if (a.size() != b.size()) {
+		return false;
+	}
 
-//still not sure about htis bit
-static bool isEqual(string_view stringA, string_view stringB) {
-	return ranges::equal(stringA, stringB);
+	return equal(a.begin(), a.end(), b.begin(),
+		[](unsigned char c1, unsigned char c2) {
+			return tolower(c1) == tolower(c2);
+		});
 }
 
-static void effectSetPrinter(unordered_set<Effect, EffectHash, EffectEqual> effectsSet) {
+static void effectSetPrinter(const unordered_set<Effect, EffectHash, EffectEqual>& effectsSet) {
 	for (const auto& eff : effectsSet) {
 		cout << eff << endl;
 	}
 }
 
-static void ingredientSetPrinter(unordered_set<Ingredient, IngredientHash, IngredientEqual> ingredientsSet) {
+static void ingredientSetPrinter(const unordered_set<Ingredient, IngredientHash, IngredientEqual>& ingredientsSet) {
 	for (const auto& eff : ingredientsSet) {
 		cout << eff << endl;
 	}
 }
 
-static void ingredientPotionBuilder(vector<Ingredient> inputIngredients) {
+static void ingredientPotionBuilder(const vector<Ingredient>& inputIngredients) {
 	unordered_set<Effect, EffectHash, EffectEqual> commonEffs = handler->commonEffects(inputIngredients);
 	cout << "Resulting potion will be: " << endl;
 	for (auto item : commonEffs) {
@@ -52,6 +57,11 @@ static void inputLoop() {
 		string holder;
 		while (ss >> holder) {
 			words.push_back(holder);
+		}
+
+		if (words.empty()) {
+			cout << "no command entered" << endl;
+			continue;
 		}
 
 		if (isEqual(words[0], "exit")) {
@@ -115,7 +125,7 @@ int main(int argc, char* argv[]) {
 
 	ingredients = dr.getIngredients();
 	effects = dr.getEffects();
-	handler = new IngredientHandler(ingredients, effects);
+	 IngredientHandler handler(ingredients, effects);
 	
 	cout << "Welcome to Potion Builder" << endl;
 	inputLoop();
