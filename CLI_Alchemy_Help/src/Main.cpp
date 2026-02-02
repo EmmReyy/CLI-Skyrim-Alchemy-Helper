@@ -18,23 +18,23 @@ IngredientHandler* handler = nullptr;
 
 
 //still not sure about htis bit
-bool isEqual(string_view stringA, string_view stringB) {
+static bool isEqual(string_view stringA, string_view stringB) {
 	return ranges::equal(stringA, stringB);
 }
 
-void effectSetPrinter(unordered_set<Effect, EffectHash, EffectEqual> effectsSet) {
+static void effectSetPrinter(unordered_set<Effect, EffectHash, EffectEqual> effectsSet) {
 	for (const auto& eff : effectsSet) {
 		cout << eff << endl;
 	}
 }
 
-void ingredientSetPrinter(unordered_set<Ingredient, IngredientHash, IngredientEqual> ingredientsSet) {
+static void ingredientSetPrinter(unordered_set<Ingredient, IngredientHash, IngredientEqual> ingredientsSet) {
 	for (const auto& eff : ingredientsSet) {
 		cout << eff << endl;
 	}
 }
 
-void ingredientPotionBuilder(vector<Ingredient> inputIngredients) {
+static void ingredientPotionBuilder(vector<Ingredient> inputIngredients) {
 	unordered_set<Effect, EffectHash, EffectEqual> commonEffs = handler->commonEffects(inputIngredients);
 	cout << "Resulting potion will be: " << endl;
 	for (auto item : commonEffs) {
@@ -42,7 +42,7 @@ void ingredientPotionBuilder(vector<Ingredient> inputIngredients) {
 	}
 }
 
-void inputLoop() {
+static void inputLoop() {
 	while (true) {
 		string in = "";
 		vector<string> words;
@@ -53,6 +53,7 @@ void inputLoop() {
 		while (ss >> holder) {
 			words.push_back(holder);
 		}
+
 		if (isEqual(words[0], "exit")) {
 			cout << "Closed." << endl;
 			break;
@@ -75,21 +76,28 @@ void inputLoop() {
 			effectSetPrinter(effects);
 		}
 		else if (isEqual(words[0], "ingredient")) {
-			if (words.size() > 3 || words.size() == 1) {
-				cout << "that command only accepts 1 or 2 arguments." << endl;
+			if (words.size() == 1) {
+				cout << "No arguments read" << endl;
 				break;
 			}
 			vector<Ingredient> ingsInput;
 			for (int i = 1; i < words.size(); i++) {
-				auto item = ingredients.find(words[i]);
 
-				if (item == ingredients.end()) {
-					cout << "\"" << words[i] << "\"" << "is not a recognized ingredient" << endl;
-					break;
-				}
-				else {
+
+				if (ingredients.find(words[i]) != ingredients.end()) {
+					auto item = ingredients.find(words[i]);
 					ingsInput.push_back(*item);
 				}
+				else if (i + 1 < words.size() && ingredients.find(string(words[i] + " " + words[i + 1])) != ingredients.end()) {
+					auto item = ingredients.find(words[i] + " " + words[i + 1]);
+					ingsInput.push_back(*item);
+					i++;
+				}
+				else {
+					cout << "unrecognized arguments were read" << endl;
+					break;
+				}
+
 			}
 			ingredientPotionBuilder(ingsInput);
 		}
