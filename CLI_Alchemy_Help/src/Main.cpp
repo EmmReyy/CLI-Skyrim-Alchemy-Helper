@@ -56,6 +56,7 @@ static void inputLoop() {
 		istringstream ss(in);
 		string holder;
 		while (ss >> holder) {
+			holder[0] = static_cast<char>(toupper(static_cast<unsigned char>(holder[0])));
 			words.push_back(holder);
 		}
 
@@ -91,28 +92,21 @@ static void inputLoop() {
 				break;
 			}
 			vector<Ingredient> ingsInput;
+			string line = "";
 			for (int i = 1; i < words.size(); i++) {
+				
+				if (line != "")line += " ";
+				line += words[i];
 
-				words[i][0] = static_cast<char>(toupper(static_cast<unsigned char>(words[i][0])));
-				if (i + 1 < words.size()) words[i+1][0] = static_cast<char>(toupper(static_cast<unsigned char>(words[i+1][0])));
-
-				cout << words[i] << endl;
-				if (ingredients.find(words[i]) != ingredients.end()) {
-					auto item = ingredients.find(words[i]);
+				if (ingredients.find(line) != ingredients.end()) {
+					auto item = ingredients.find(line);
 					ingsInput.push_back(*item);
-				}
-				else if (i + 1 < words.size() && ingredients.find(string(words[i] + " " + words[i + 1])) != ingredients.end()) {
-					auto item = ingredients.find(words[i] + " " + words[i + 1]);
-					ingsInput.push_back(*item);
-					i++;
-				}
-				else {
-					cout << "unrecognized arguments were read" << endl;
-					break;
+					line = "";
 				}
 
 			}
 			if (!ingsInput.empty())ingredientPotionBuilder(ingsInput);
+			else cout << "unrecognized arguments" << endl;
 		}
 		else {
 			cout << "\"" << words[0] << "\"" << "not recoginzed as a command." << endl;
