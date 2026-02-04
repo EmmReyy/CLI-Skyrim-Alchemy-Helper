@@ -93,8 +93,10 @@ static void inputLoop() {
 			vector<Ingredient> ingsInput;
 			for (int i = 1; i < words.size(); i++) {
 
+				words[i][0] = static_cast<char>(toupper(static_cast<unsigned char>(words[i][0])));
 
 				if (ingredients.find(words[i]) != ingredients.end()) {
+					cout << words[i] << endl;
 					auto item = ingredients.find(words[i]);
 					ingsInput.push_back(*item);
 				}
@@ -109,7 +111,7 @@ static void inputLoop() {
 				}
 
 			}
-			ingredientPotionBuilder(ingsInput);
+			if (!ingsInput.empty())ingredientPotionBuilder(ingsInput);
 		}
 		else {
 			cout << "\"" << words[0] << "\"" << "not recoginzed as a command." << endl;
@@ -125,10 +127,12 @@ int main(int argc, char* argv[]) {
 
 	ingredients = dr.getIngredients();
 	effects = dr.getEffects();
-	 IngredientHandler handler(ingredients, effects);
+	handler = new IngredientHandler(ingredients, effects);
 	
 	cout << "Welcome to Potion Builder" << endl;
 	inputLoop();
 
+	delete handler;
+	handler = nullptr;
 	return 0;
 }
