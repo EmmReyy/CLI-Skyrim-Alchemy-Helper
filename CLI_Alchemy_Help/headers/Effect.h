@@ -6,8 +6,6 @@
 #include "Ingredient.h"
 #include <string>
 
-using namespace std;
-
 class Effect
 {
 private:
@@ -17,7 +15,7 @@ public:
 	Effect(string name, unordered_set<Ingredient, IngredientHash, IngredientEqual> ingredients);
 
 	string getEffectName() const;
-	unordered_set<Ingredient, IngredientHash, IngredientEqual> getIngredients() const;
+	const unordered_set<Ingredient, IngredientHash, IngredientEqual>& getIngredients() const;
 	void addEffectIngredient(const Ingredient& ing) const;
 	
 	bool operator==(const Effect& other) const;

@@ -29,9 +29,11 @@ unordered_set<Ingredient, IngredientHash, IngredientEqual> IngredientHandler::in
 	}
 
 	auto eff = effects.begin();
-	mergedSet.merge(eff->getIngredients());
+	const auto& src = eff->getIngredients();
+	mergedSet.insert(src.begin(), src.end());
 	eff++;
-	mergedSet.merge(eff->getIngredients());
+	const auto& srcToo = eff->getIngredients();
+	mergedSet.insert(srcToo.begin(), srcToo.end());
 
 	return mergedSet;
 }

@@ -18,7 +18,7 @@ void Effect::addEffectIngredient(const Ingredient& ing) const{
 }
 
 
-unordered_set<Ingredient, IngredientHash, IngredientEqual> Effect::getIngredients() const {
+const unordered_set<Ingredient, IngredientHash, IngredientEqual>& Effect::getIngredients() const {
 	return effectIngredients;
 }
 

@@ -12,7 +12,7 @@ class Ingredient
 public:
 	Ingredient(string name, unordered_set<string> effects);
 	string getIngredientName() const;
-	unordered_set<string> getEffects() const;
+	const unordered_set<string>& getEffects() const;
 	bool hasEffect(const string& name);
 
 	bool operator==(const Ingredient& other) const;

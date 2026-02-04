@@ -2,8 +2,6 @@
 #include <iostream>
 #include <unordered_set>
 
-using namespace std;
-
 Ingredient::Ingredient(string name, unordered_set<string> effects) {
 	this->name = name;
 	this->effects = effects;
@@ -13,7 +11,7 @@ string Ingredient::getIngredientName() const {
 	return name;
 }
 
-unordered_set<string> Ingredient::getEffects() const {
+const unordered_set<string>& Ingredient::getEffects() const {
 	return effects;
 }
 
