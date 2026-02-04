@@ -94,9 +94,10 @@ static void inputLoop() {
 			for (int i = 1; i < words.size(); i++) {
 
 				words[i][0] = static_cast<char>(toupper(static_cast<unsigned char>(words[i][0])));
+				if (i + 1 < words.size()) words[i+1][0] = static_cast<char>(toupper(static_cast<unsigned char>(words[i+1][0])));
 
+				cout << words[i] << endl;
 				if (ingredients.find(words[i]) != ingredients.end()) {
-					cout << words[i] << endl;
 					auto item = ingredients.find(words[i]);
 					ingsInput.push_back(*item);
 				}
