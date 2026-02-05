@@ -7,7 +7,7 @@
 
 using namespace std;
 
-IngredientHandler::IngredientHandler(unordered_set<Ingredient, IngredientHash, IngredientEqual> ingredients, unordered_set<Effect, EffectHash, EffectEqual> effects) {
+IngredientHandler::IngredientHandler(unordered_set<Ingredient, IngredientHash, IngredientEqual>& ingredients, unordered_set<Effect, EffectHash, EffectEqual>& effects) {
 	this->ingredients = ingredients;
 	this->effects = effects;
 }
@@ -20,8 +20,25 @@ unordered_set<Ingredient, IngredientHash, IngredientEqual> IngredientHandler::in
 	return eff->getIngredients();	
 }
 
+//i shoulda planned this out more. bad design :(
+unordered_set<Ingredient, IngredientHash, IngredientEqual> IngredientHandler::ingredientsWithEffect(vector<Effect>& effects) {
+	unordered_set<Ingredient, IngredientHash, IngredientEqual> ingsWithEffs;
 
-unordered_set<Ingredient, IngredientHash, IngredientEqual> IngredientHandler::ingredientsWithEffect(unordered_set<Effect, EffectHash, EffectEqual> effects) {
+	if (effects.size() < 1 || effects.size() > 2) {
+		return ingsWithEffs;
+	}
+
+	if (effects.size() == 1) {
+		return effects[0].getIngredients();
+	} 
+	else {
+		ingsWithEffs = effects[0].getIngredients();
+		ingsWithEffs.insert(effects[1].getIngredients().begin(), effects[1].getIngredients().end());
+		return ingsWithEffs;
+	}
+}
+
+unordered_set<Ingredient, IngredientHash, IngredientEqual> IngredientHandler::ingredientsWithEffect(unordered_set<Effect, EffectHash, EffectEqual>& effects) {
 	unordered_set<Ingredient, IngredientHash, IngredientEqual> mergedSet;
 
 	if (effects.size() > 2) {
@@ -47,7 +64,7 @@ unordered_set<Effect, EffectHash, EffectEqual> IngredientHandler::commonEffects(
 	if (inputIngredients.size() == 1) {
 		const auto& effectsList = inputIngredients[0].getEffects();
 
-		for (auto it = effectsList.begin(); it != effectsList.end(); ++it) {
+		for (auto it = effectsList.begin(); it != effectsList.end(); it++) {
 			auto effectThis = effects.find(*it);
 
 			if (effectThis != effects.end()) {

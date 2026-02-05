@@ -47,6 +47,7 @@ static void ingredientPotionBuilder(const vector<Ingredient>& inputIngredients) 
 	}
 }
 
+
 static void inputLoop() {
 	while (true) {
 		string in = "";
@@ -125,7 +126,12 @@ int main(int argc, char* argv[]) {
 	handler = new IngredientHandler(ingredients, effects);
 	
 	cout << "Welcome to Potion Builder" << endl;
-	inputLoop();
+	//inputLoop();
+	vector<Effect> effsA;
+	auto effA = effects.find("Weakness to Frost");
+	effsA.push_back(*effA);
+
+	ingredientSetPrinter(handler->ingredientsWithEffect(effsA));
 
 	delete handler;
 	handler = nullptr;
