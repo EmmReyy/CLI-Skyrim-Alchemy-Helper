@@ -129,10 +129,11 @@ int main(int argc, char* argv[]) {
 	//inputLoop();
 	vector<Effect> effsA;
 	auto effA = effects.find("Weakness to Frost");
+	auto effB = effects.find("Invisibility");
 	effsA.push_back(*effA);
+	effsA.push_back(*effB);
 
 	ingredientSetPrinter(handler->ingredientsWithEffect(effsA));
-
 	delete handler;
 	handler = nullptr;
 	return 0;

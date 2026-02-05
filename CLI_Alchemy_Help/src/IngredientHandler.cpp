@@ -33,7 +33,15 @@ unordered_set<Ingredient, IngredientHash, IngredientEqual> IngredientHandler::in
 	} 
 	else {
 		ingsWithEffs = effects[0].getIngredients();
-		ingsWithEffs.insert(effects[1].getIngredients().begin(), effects[1].getIngredients().end());
+		
+		for (auto item = ingsWithEffs.begin(); item != ingsWithEffs.end(); ) {
+			if (!item->hasEffect(effects[1].getEffectName())) {
+				item = ingsWithEffs.erase(item);
+			}
+			else {
+				++item;
+			}
+		}
 		return ingsWithEffs;
 	}
 }

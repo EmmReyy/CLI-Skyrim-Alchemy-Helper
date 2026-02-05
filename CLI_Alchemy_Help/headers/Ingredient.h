@@ -13,7 +13,7 @@ public:
 	Ingredient(string name, unordered_set<string> effects);
 	string getIngredientName() const;
 	const unordered_set<string>& getEffects() const;
-	bool hasEffect(const string& name);
+	bool hasEffect(const string& name) const;
 
 	bool operator==(const Ingredient& other) const;
 

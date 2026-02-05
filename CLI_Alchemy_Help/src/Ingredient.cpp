@@ -15,8 +15,13 @@ const unordered_set<string>& Ingredient::getEffects() const {
 	return effects;
 }
 
-bool Ingredient::hasEffect(const string& effect) {
-	return effects.find(effect) != effects.end();
+bool Ingredient::hasEffect(const string& effect) const{
+	if (effects.find(effect) != effects.end()) {
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 bool Ingredient::operator==(const Ingredient& other) const {
