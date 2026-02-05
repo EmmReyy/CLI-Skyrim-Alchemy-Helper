@@ -47,6 +47,13 @@ static void ingredientPotionBuilder(const vector<Ingredient>& inputIngredients) 
 	}
 }
 
+static void effectsPotionBuilder(const vector<Effect> effsInput) {
+	unordered_set<Ingredient, IngredientHash, IngredientEqual> ingsWithEffs = handler->ingredientsWithEffect(effsInput);
+	cout << "Possible ingredients are: " << endl;
+	for (auto item : ingsWithEffs) {
+		cout << "    " << item.getIngredientName() << endl;
+	}
+}
 
 static void inputLoop() {
 	while (true) {
@@ -109,6 +116,30 @@ static void inputLoop() {
 			if (!ingsInput.empty())ingredientPotionBuilder(ingsInput);
 			else cout << "unrecognized arguments" << endl;
 		}
+		else if (isEqual(words[0], "effect")) {
+			if (words.size() == 1) {
+				cout << "no arguments read" << endl;
+				continue;
+			}
+
+			vector<Effect> effsInput;
+			string line = "";
+
+			for (int i = 1; i < words.size(); i++) {
+				if (line != "")line += " ";
+				line += words[i];
+
+				if (effects.find(line) != effects.end()) {
+
+					auto item = effects.find(line);
+					effsInput.push_back(*item);
+					line = "";
+				}
+			}
+
+			if (!effsInput.empty())effectsPotionBuilder(effsInput);
+			else cout << "unrecognized arguments" << endl;
+		}
 		else {
 			cout << "\"" << words[0] << "\"" << "not recoginzed as a command." << endl;
 		}
@@ -126,14 +157,14 @@ int main(int argc, char* argv[]) {
 	handler = new IngredientHandler(ingredients, effects);
 	
 	cout << "Welcome to Potion Builder" << endl;
-	//inputLoop();
+	inputLoop();
 	vector<Effect> effsA;
 	auto effA = effects.find("Weakness to Frost");
 	auto effB = effects.find("Invisibility");
 	effsA.push_back(*effA);
 	effsA.push_back(*effB);
 
-	ingredientSetPrinter(handler->ingredientsWithEffect(effsA));
+	//ingredientSetPrinter(handler->ingredientsWithEffect(effsA));
 	delete handler;
 	handler = nullptr;
 	return 0;

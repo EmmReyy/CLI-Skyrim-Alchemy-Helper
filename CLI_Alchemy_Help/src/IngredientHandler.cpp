@@ -21,7 +21,7 @@ unordered_set<Ingredient, IngredientHash, IngredientEqual> IngredientHandler::in
 }
 
 //i shoulda planned this out more. bad design :(
-unordered_set<Ingredient, IngredientHash, IngredientEqual> IngredientHandler::ingredientsWithEffect(vector<Effect>& effects) {
+unordered_set<Ingredient, IngredientHash, IngredientEqual> IngredientHandler::ingredientsWithEffect(vector<Effect> effects) {
 	unordered_set<Ingredient, IngredientHash, IngredientEqual> ingsWithEffs;
 
 	if (effects.size() < 1 || effects.size() > 2) {
