@@ -4,25 +4,23 @@
 #include <unordered_set>
 #include <functional>
 
-using namespace std;
-
 class Ingredient
 {
 
 public:
-	Ingredient(string name, unordered_set<string> effects);
-	string getIngredientName() const;
-	const unordered_set<string>& getEffects() const;
-	bool hasEffect(const string& name) const;
+	Ingredient(std::string name, std::unordered_set<std::string> effects);
+	std::string getIngredientName() const;
+	const std::unordered_set<std::string>& getEffects() const;
+	bool hasEffect(const std::string& name) const;
 
 	bool operator==(const Ingredient& other) const;
 
-	friend ostream& operator<<(ostream& os, const Ingredient& i);
+	friend std::ostream& operator<<(std::ostream& os, const Ingredient& i);
 
 
 private:
-	string name;
-	unordered_set<string> effects = {};
+	std::string name;
+	std::unordered_set<std::string> effects = {};
 
 };
 
@@ -30,11 +28,11 @@ struct IngredientHash {
 	using is_transparent = void;
 
 	size_t operator()(const Ingredient& i) const {
-		return hash<string>{}(i.getIngredientName());
+		return std::hash<std::string>{}(i.getIngredientName());
 	}
-	
-	size_t operator()(const string& name) const {
-		return hash<string>{}(name);
+
+	size_t operator()(const std::string& name) const {
+		return std::hash<std::string>{}(name);
 	}
 };
 
@@ -43,13 +41,13 @@ struct IngredientEqual {
 
 	bool operator()(const Ingredient& setIngredient, const Ingredient& checkIngredient) const {
 		return setIngredient.getIngredientName() == checkIngredient.getIngredientName();
-	} 
+	}
 
-	bool operator()(const string& name, const Ingredient& i) const{
+	bool operator()(const std::string& name, const Ingredient& i) const {
 		return name == i.getIngredientName();
 	}
 
-	bool operator()(const Ingredient& i, const string& name) const{
+	bool operator()(const Ingredient& i, const std::string& name) const {
 		return name == i.getIngredientName();
 	}
 };

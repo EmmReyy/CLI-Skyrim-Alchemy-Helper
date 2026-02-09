@@ -4,21 +4,20 @@
 #include "Ingredient.h"
 #include "Effect.h"
 
-Effect::Effect(string name, unordered_set<Ingredient, IngredientHash, IngredientEqual> ingredients) {
+Effect::Effect(std::string name, std::unordered_set<Ingredient, IngredientHash, IngredientEqual> ingredients) {
 	this->name = name;
 	this->effectIngredients = ingredients;
 }
 
-string Effect::getEffectName() const{
+std::string Effect::getEffectName() const {
 	return name;
 }
 
-void Effect::addEffectIngredient(const Ingredient& ing) const{
+void Effect::addEffectIngredient(const Ingredient& ing) const {
 	effectIngredients.insert(ing);
 }
 
-
-const unordered_set<Ingredient, IngredientHash, IngredientEqual>& Effect::getIngredients() const {
+const std::unordered_set<Ingredient, IngredientHash, IngredientEqual>& Effect::getIngredients() const {
 	return effectIngredients;
 }
 
@@ -26,8 +25,8 @@ bool Effect::operator==(const Effect& other) const {
 	return name == other.name;
 }
 
-ostream& operator<<(ostream& os, const Effect& e) {
-	string ingredients;
+std::ostream& operator<<(std::ostream& os, const Effect& e) {
+	std::string ingredients;
 	bool first = true;
 
 	for (auto& ing : e.getIngredients()) {
@@ -38,7 +37,7 @@ ostream& operator<<(ostream& os, const Effect& e) {
 		first = false;
 	}
 
-	os << e.getEffectName() << "{" << ingredients << "}" << endl;
+	os << e.getEffectName() << "{" << ingredients << "}" << std::endl;
 
 	return os;
 }

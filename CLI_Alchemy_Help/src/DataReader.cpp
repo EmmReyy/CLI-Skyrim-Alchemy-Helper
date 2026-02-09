@@ -1,4 +1,3 @@
-
 #include "DataReader.h"
 #include "Ingredient.h"
 #include "Effect.h"
@@ -7,13 +6,11 @@
 #include "json.hpp"
 #include <iostream>
 
-using namespace std;
-
-bool DataReader::loadIngredientFile(const string& filename) {
-	ifstream file(filename);
+bool DataReader::loadIngredientFile(const std::string& filename) {
+	std::ifstream file(filename);
 
 	if (!file.is_open()) {
-		cerr << "Error! Couldn't open file" << endl;
+		std::cerr << "Error! Couldn't open file" << std::endl;
 		return false;
 	}
 	else {
@@ -26,16 +23,16 @@ bool DataReader::loadIngredientFile(const string& filename) {
 bool DataReader::parseIngredientFile() {
 
 	if (ingredientFile.is_null()) {
-		cerr << "Error! the json file is empty" << endl;
+		std::cerr << "Error! the json file is empty" << std::endl;
 	}
 
 	for (const auto& item : ingredientFile) {
-		string name = item["name"];
-		unordered_set<string> ingredientEffects = {};
+		std::string name = item["name"];
+		std::unordered_set<std::string> ingredientEffects = {};
 
-		for (string effect : item["effects"]) {
+		for (std::string effect : item["effects"]) {
 
-			if (effect.find('(') != string::npos && effect.find(')') != string::npos) {
+			if (effect.find('(') != std::string::npos && effect.find(')') != std::string::npos) {
 				size_t start = effect.find('(');
 				size_t end = effect.find(')');
 
@@ -44,7 +41,7 @@ bool DataReader::parseIngredientFile() {
 			ingredientEffects.insert(effect);
 			effects.insert(Effect(effect, {}));
 		}
-		Ingredient ing (Ingredient(name, ingredientEffects));
+		Ingredient ing(Ingredient(name, ingredientEffects));
 		ingredients.insert(ing);
 
 		for (auto& effectName : ingredientEffects) {
@@ -56,12 +53,11 @@ bool DataReader::parseIngredientFile() {
 	return true;
 }
 
-unordered_set<Ingredient, IngredientHash, IngredientEqual> DataReader::getIngredients()
+std::unordered_set<Ingredient, IngredientHash, IngredientEqual> DataReader::getIngredients()
 {
 	return ingredients;
 }
-	
-unordered_set<Effect, EffectHash, EffectEqual> DataReader::getEffects() {
+
+std::unordered_set<Effect, EffectHash, EffectEqual> DataReader::getEffects() {
 	return effects;
 }
-

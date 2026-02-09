@@ -2,20 +2,20 @@
 #include <iostream>
 #include <unordered_set>
 
-Ingredient::Ingredient(string name, unordered_set<string> effects) {
+Ingredient::Ingredient(std::string name, std::unordered_set<std::string> effects) {
 	this->name = name;
 	this->effects = effects;
 }
 
-string Ingredient::getIngredientName() const {
+std::string Ingredient::getIngredientName() const {
 	return name;
 }
 
-const unordered_set<string>& Ingredient::getEffects() const {
+const std::unordered_set<std::string>& Ingredient::getEffects() const {
 	return effects;
 }
 
-bool Ingredient::hasEffect(const string& effect) const{
+bool Ingredient::hasEffect(const std::string& effect) const {
 	if (effects.find(effect) != effects.end()) {
 		return true;
 	}
@@ -28,9 +28,9 @@ bool Ingredient::operator==(const Ingredient& other) const {
 	return name == other.name;
 }
 
-ostream& operator<<(ostream& os, const Ingredient& i) {
+std::ostream& operator<<(std::ostream& os, const Ingredient& i) {
 
-	string effects;
+	std::string effects;
 	bool first = true;
 	for (auto& effect : i.getEffects()) {
 		if (!first) {

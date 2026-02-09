@@ -1,28 +1,26 @@
 #include "IngredientHandler.h"
 #include <iostream>
-#include<vector>
+#include <vector>
 #include "Ingredient.h"
 #include "Effect.h"
 #include <unordered_set>
 
-using namespace std;
-
-IngredientHandler::IngredientHandler(unordered_set<Ingredient, IngredientHash, IngredientEqual>& ingredients, unordered_set<Effect, EffectHash, EffectEqual>& effects) {
+IngredientHandler::IngredientHandler(std::unordered_set<Ingredient, IngredientHash, IngredientEqual>& ingredients, std::unordered_set<Effect, EffectHash, EffectEqual>& effects) {
 	this->ingredients = ingredients;
 	this->effects = effects;
 }
 
-unordered_set<Ingredient, IngredientHash, IngredientEqual> IngredientHandler::ingredientsWithEffect(Effect effect) {
+std::unordered_set<Ingredient, IngredientHash, IngredientEqual> IngredientHandler::ingredientsWithEffect(Effect effect) {
 	auto eff = effects.find(effect.getEffectName());
 	if (eff == effects.end()) {
 		return {};
 	}
-	return eff->getIngredients();	
+	return eff->getIngredients();
 }
 
 //i shoulda planned this out more. bad design :(
-unordered_set<Ingredient, IngredientHash, IngredientEqual> IngredientHandler::ingredientsWithEffect(vector<Effect> effects) {
-	unordered_set<Ingredient, IngredientHash, IngredientEqual> ingsWithEffs;
+std::unordered_set<Ingredient, IngredientHash, IngredientEqual> IngredientHandler::ingredientsWithEffect(std::vector<Effect> effects) {
+	std::unordered_set<Ingredient, IngredientHash, IngredientEqual> ingsWithEffs;
 
 	if (effects.size() < 1 || effects.size() > 2) {
 		return ingsWithEffs;
@@ -30,10 +28,10 @@ unordered_set<Ingredient, IngredientHash, IngredientEqual> IngredientHandler::in
 
 	if (effects.size() == 1) {
 		return effects[0].getIngredients();
-	} 
+	}
 	else {
 		ingsWithEffs = effects[0].getIngredients();
-		
+
 		for (auto item = ingsWithEffs.begin(); item != ingsWithEffs.end(); ) {
 			if (!item->hasEffect(effects[1].getEffectName())) {
 				item = ingsWithEffs.erase(item);
@@ -46,8 +44,8 @@ unordered_set<Ingredient, IngredientHash, IngredientEqual> IngredientHandler::in
 	}
 }
 
-unordered_set<Ingredient, IngredientHash, IngredientEqual> IngredientHandler::ingredientsWithEffect(unordered_set<Effect, EffectHash, EffectEqual>& effects) {
-	unordered_set<Ingredient, IngredientHash, IngredientEqual> mergedSet;
+std::unordered_set<Ingredient, IngredientHash, IngredientEqual> IngredientHandler::ingredientsWithEffect(std::unordered_set<Effect, EffectHash, EffectEqual>& effects) {
+	std::unordered_set<Ingredient, IngredientHash, IngredientEqual> mergedSet;
 
 	if (effects.size() > 2) {
 		return mergedSet;
@@ -66,8 +64,8 @@ unordered_set<Ingredient, IngredientHash, IngredientEqual> IngredientHandler::in
 //this one is only to return all the ingredient with two common effects.
 //also assume that input con only have max size two since thats how potions work. messy ik
 //TODO: should probably just a vector
-unordered_set<Effect, EffectHash, EffectEqual> IngredientHandler::commonEffects(vector<Ingredient>inputIngredients) {
-	unordered_set<Effect, EffectHash, EffectEqual> commonEffs;
+std::unordered_set<Effect, EffectHash, EffectEqual> IngredientHandler::commonEffects(std::vector<Ingredient>inputIngredients) {
+	std::unordered_set<Effect, EffectHash, EffectEqual> commonEffs;
 
 	if (inputIngredients.size() == 1) {
 		const auto& effectsList = inputIngredients[0].getEffects();
@@ -95,5 +93,3 @@ unordered_set<Effect, EffectHash, EffectEqual> IngredientHandler::commonEffects(
 
 	return commonEffs;
 }
-
-

@@ -9,84 +9,82 @@
 #include <algorithm>   
 #include <string_view>
 
-using namespace std;
-
 //globals
-unordered_set<Ingredient, IngredientHash, IngredientEqual> ingredients;
-unordered_set<Effect, EffectHash, EffectEqual> effects;
+std::unordered_set<Ingredient, IngredientHash, IngredientEqual> ingredients;
+std::unordered_set<Effect, EffectHash, EffectEqual> effects;
 IngredientHandler* handler = nullptr;
 
-bool isEqual(string_view a, string_view b) {
+bool isEqual(std::string_view a, std::string_view b) {
 	if (a.size() != b.size()) {
 		return false;
 	}
 
-	return equal(a.begin(), a.end(), b.begin(),
+	return std::equal(a.begin(), a.end(), b.begin(),
 		[](unsigned char c1, unsigned char c2) {
-			return tolower(c1) == tolower(c2);
+			return std::tolower(c1) == std::tolower(c2);
 		});
 }
 
-static void effectSetPrinter(const unordered_set<Effect, EffectHash, EffectEqual>& effectsSet) {
+static void effectSetPrinter(const std::unordered_set<Effect, EffectHash, EffectEqual>& effectsSet) {
 	for (const auto& eff : effectsSet) {
-		cout << eff << endl;
+		std::cout << eff << std::endl;
 	}
 }
 
-static void ingredientSetPrinter(const unordered_set<Ingredient, IngredientHash, IngredientEqual>& ingredientsSet) {
+static void ingredientSetPrinter(const std::unordered_set<Ingredient, IngredientHash, IngredientEqual>& ingredientsSet) {
 	for (const auto& eff : ingredientsSet) {
-		cout << eff << endl;
+		std::cout << eff << std::endl;
 	}
 }
 
-static void ingredientPotionBuilder(const vector<Ingredient>& inputIngredients) {
-	unordered_set<Effect, EffectHash, EffectEqual> commonEffs = handler->commonEffects(inputIngredients);
-	cout << "Resulting potion will be: " << endl;
+static void ingredientPotionBuilder(const std::vector<Ingredient>& inputIngredients) {
+	std::unordered_set<Effect, EffectHash, EffectEqual> commonEffs = handler->commonEffects(inputIngredients);
+	std::cout << "Resulting potion will be: " << std::endl;
 	for (auto item : commonEffs) {
-		cout << "    " << item.getEffectName() << endl;
+		std::cout << "    " << item.getEffectName() << std::endl;
 	}
 }
 
-static void effectsPotionBuilder(const vector<Effect> effsInput) {
-	unordered_set<Ingredient, IngredientHash, IngredientEqual> ingsWithEffs = handler->ingredientsWithEffect(effsInput);
-	cout << "Possible ingredients are: " << endl;
+static void effectsPotionBuilder(const std::vector<Effect> effsInput) {
+	std::unordered_set<Ingredient, IngredientHash, IngredientEqual> ingsWithEffs = handler->ingredientsWithEffect(effsInput);
+	std::cout << "Possible ingredients are: " << std::endl;
 	for (auto item : ingsWithEffs) {
-		cout << "    " << item.getIngredientName() << endl;
+		std::cout << "    " << item.getIngredientName() << std::endl;
 	}
 }
 
 static void inputLoop() {
 	while (true) {
-		string in = "";
-		vector<string> words;
-		getline(cin, in);
-		
-		istringstream ss(in);
-		string holder;
+		std::string in = "";
+		std::vector<std::string> words;
+		std::getline(std::cin, in);
+
+		std::istringstream ss(in);
+		std::string holder;
 		while (ss >> holder) {
-			holder[0] = static_cast<char>(toupper(static_cast<unsigned char>(holder[0])));
+			if (holder != "to")holder[0] = static_cast<char>(std::toupper(static_cast<unsigned char>(holder[0])));
 			words.push_back(holder);
 		}
 
 		if (words.empty()) {
-			cout << "no command entered" << endl;
+			std::cout << "no command entered" << std::endl;
 			continue;
 		}
 
 		if (isEqual(words[0], "exit")) {
-			cout << "Closed." << endl;
+			std::cout << "Closed." << std::endl;
 			break;
 		}
 		else if (in.empty()) {
-			cout << "No command entered." << endl;
+			std::cout << "No command entered." << std::endl;
 
 		}
 		else if (isEqual(words[0], "help")) {
-			cout << "list of commands are: \n" << endl;
-			cout << "ingredients == lists all ingredients. " << endl;
-			cout << "ingredient [ingredient name] [ingredient name] == lists other ingredients needed to build a potion with the ingredients' common effects." << endl;
-			cout << "effects == lists all the effects." << endl;
-			cout << "effect [effect ame] [effect name] == lists all the possible ingredients needed to build potion with the effect.";
+			std::cout << "list of commands are: \n" << std::endl;
+			std::cout << "ingredients == lists all ingredients. " << std::endl;
+			std::cout << "ingredient [ingredient name] [ingredient name] == lists other ingredients needed to build a potion with the ingredients' common effects." << std::endl;
+			std::cout << "effects == lists all the effects." << std::endl;
+			std::cout << "effect [effect ame] [effect name] == lists all the possible ingredients needed to build potion with the effect.";
 		}
 		else if (isEqual(words[0], "ingredients")) {
 			ingredientSetPrinter(ingredients);
@@ -96,13 +94,13 @@ static void inputLoop() {
 		}
 		else if (isEqual(words[0], "ingredient")) {
 			if (words.size() == 1) {
-				cout << "No arguments read" << endl;
+				std::cout << "No arguments read" << std::endl;
 				break;
 			}
-			vector<Ingredient> ingsInput;
-			string line = "";
+			std::vector<Ingredient> ingsInput;
+			std::string line = "";
 			for (int i = 1; i < words.size(); i++) {
-				
+
 				if (line != "")line += " ";
 				line += words[i];
 
@@ -114,16 +112,16 @@ static void inputLoop() {
 
 			}
 			if (!ingsInput.empty())ingredientPotionBuilder(ingsInput);
-			else cout << "unrecognized arguments" << endl;
+			else std::cout << "unrecognized arguments" << std::endl;
 		}
 		else if (isEqual(words[0], "effect")) {
 			if (words.size() == 1) {
-				cout << "no arguments read" << endl;
+				std::cout << "no arguments read" << std::endl;
 				continue;
 			}
 
-			vector<Effect> effsInput;
-			string line = "";
+			std::vector<Effect> effsInput;
+			std::string line = "";
 
 			for (int i = 1; i < words.size(); i++) {
 				if (line != "")line += " ";
@@ -138,10 +136,10 @@ static void inputLoop() {
 			}
 
 			if (!effsInput.empty())effectsPotionBuilder(effsInput);
-			else cout << "unrecognized arguments" << endl;
+			else std::cout << "unrecognized arguments" << std::endl;
 		}
 		else {
-			cout << "\"" << words[0] << "\"" << "not recoginzed as a command." << endl;
+			std::cout << "\"" << words[0] << "\"" << "not recoginzed as a command." << std::endl;
 		}
 	}
 }
@@ -155,10 +153,10 @@ int main(int argc, char* argv[]) {
 	ingredients = dr.getIngredients();
 	effects = dr.getEffects();
 	handler = new IngredientHandler(ingredients, effects);
-	
-	cout << "Welcome to Potion Builder" << endl;
+
+	std::cout << "Welcome to Potion Builder" << std::endl;
 	inputLoop();
-	vector<Effect> effsA;
+	std::vector<Effect> effsA;
 	auto effA = effects.find("Weakness to Frost");
 	auto effB = effects.find("Invisibility");
 	effsA.push_back(*effA);

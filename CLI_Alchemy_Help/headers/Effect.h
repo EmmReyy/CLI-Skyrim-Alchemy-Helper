@@ -9,32 +9,32 @@
 class Effect
 {
 private:
-	string name;
-	mutable unordered_set<Ingredient, IngredientHash, IngredientEqual> effectIngredients;
+	std::string name;
+	mutable std::unordered_set<Ingredient, IngredientHash, IngredientEqual> effectIngredients;
 public:
-	Effect(string name, unordered_set<Ingredient, IngredientHash, IngredientEqual> ingredients);
+	Effect(std::string name, std::unordered_set<Ingredient, IngredientHash, IngredientEqual> ingredients);
 
-	string getEffectName() const;
-	const unordered_set<Ingredient, IngredientHash, IngredientEqual>& getIngredients() const;
+	std::string getEffectName() const;
+	const std::unordered_set<Ingredient, IngredientHash, IngredientEqual>& getIngredients() const;
 	void addEffectIngredient(const Ingredient& ing) const;
-	
+
 	bool operator==(const Effect& other) const;
 
-	friend ostream& operator<<(ostream& os, const Effect& i);
+	friend std::ostream& operator<<(std::ostream& os, const Effect& i);
 
 };
 
-	
+
 
 struct EffectHash {
 	using is_transparent = void;
 
-	size_t operator()(const Effect&e ) const {
-		return hash<string>{}(e.getEffectName());
+	size_t operator()(const Effect& e) const {
+		return std::hash<std::string>{}(e.getEffectName());
 	}
 
-	size_t operator()(const string& name) const {
-		return hash<string>{}(name);
+	size_t operator()(const std::string& name) const {
+		return std::hash<std::string>{}(name);
 	}
 
 	size_t operator()(const char* name) const noexcept {
@@ -49,7 +49,7 @@ struct EffectEqual {
 		return setEffect.getEffectName() == checkEffect.getEffectName();
 	}
 
-	bool operator()(const string& name, const Effect& e) const {
+	bool operator()(const std::string& name, const Effect& e) const {
 		return name == e.getEffectName();
 	}
 
@@ -57,7 +57,7 @@ struct EffectEqual {
 		return name == e.getEffectName();
 	}
 
-	bool operator()(const Effect& e, const string& name ) const {
+	bool operator()(const Effect& e, const std::string& name) const {
 		return name == e.getEffectName();
 	}
 
