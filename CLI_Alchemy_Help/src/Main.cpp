@@ -53,17 +53,27 @@ static void effectsPotionBuilder(const std::vector<Effect> effsInput) {
 	}
 }
 
-static void inputLoop() {
-	while (true) {
-		std::string in = "";
-		std::vector<std::string> words;
-		std::getline(std::cin, in);
+static void inputLoop(std::vector<std::string> input = {}) {
 
-		std::istringstream ss(in);
-		std::string holder;
-		while (ss >> holder) {
-			if (holder != "to")holder[0] = static_cast<char>(std::toupper(static_cast<unsigned char>(holder[0])));
-			words.push_back(holder);
+	bool isDirectCommand = !input.empty();
+
+	while (true) {
+
+		std::vector<std::string> words;
+
+		if (isDirectCommand) {
+			words = input;
+		}
+		else {
+			std::string in = "";
+			if (!std::getline(std::cin, in) || in.empty()) continue;
+
+			std::istringstream ss(in);
+			std::string holder;
+			while (ss >> holder) {
+				if (holder != "to") holder[0] = static_cast<char>(std::toupper(static_cast<unsigned char>(holder[0])));
+				words.push_back(holder);
+			}
 		}
 
 		if (words.empty()) {
@@ -75,10 +85,7 @@ static void inputLoop() {
 			std::cout << "Closed." << std::endl;
 			break;
 		}
-		else if (in.empty()) {
-			std::cout << "No command entered." << std::endl;
 
-		}
 		else if (isEqual(words[0], "help")) {
 			std::cout << "list of commands are: \n" << std::endl;
 			std::cout << "ingredients == lists all ingredients. " << std::endl;
@@ -138,6 +145,10 @@ static void inputLoop() {
 			if (!effsInput.empty())effectsPotionBuilder(effsInput);
 			else std::cout << "unrecognized arguments" << std::endl;
 		}
+
+		else if (isDirectCommand) {
+			break;
+		}
 		else {
 			std::cout << "\"" << words[0] << "\"" << "not recoginzed as a command." << std::endl;
 		}
@@ -154,8 +165,17 @@ int main(int argc, char* argv[]) {
 	effects = dr.getEffects();
 	handler = new IngredientHandler(ingredients, effects);
 
-	std::cout << "Welcome to Potion Builder" << std::endl;
-	inputLoop();
+	if (argc > 1) {
+		std::vector<std::string> cmdInput;
+		for (int i = 1; i < argc; ++i) {
+			cmdInput.push_back(argv[i]);
+		}
+		inputLoop(cmdInput);
+	}
+	else {
+		std::cout << "Welcome to Potion Builder" << std::endl;
+		inputLoop();
+	}
 	std::vector<Effect> effsA;
 	auto effA = effects.find("Weakness to Frost");
 	auto effB = effects.find("Invisibility");
